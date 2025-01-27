@@ -60,10 +60,13 @@ body
 
 
 .container form .input-field label {
+    display: block;
     background-color: var(--primary-color);
-    padding: 5px;
-    padding-bottom: 15px;
-    width: fit-content;
+    padding: 5px 5px 15px;
+    margin-left: 0.6rem;
+    width: 7rem;
+    text-align: center;
+    align-items: center;
     left: 0;
     border-top-left-radius: 7px;
     border-top-right-radius: 7px;
