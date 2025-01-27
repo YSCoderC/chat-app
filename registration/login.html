@@ -3,21 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <title>Chat App Login</title>
-    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="registration.css">
 </head>
 <body>
 
     <div class="container">
-        <h1>Chat App Login</h1>
-        <form action="#" method="post">
-            <label for="username">Username</label>
-            <input type="text" name="username" id="username" required>
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" required>
-            <button type="submit">Login</button>
-            <button type="reset">Reset</button>
+        <h1>PHP Chat App Login</h1>
+        <form action="/backend/login-handler.php" method="post">
+
+
+            <div class="input-field">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username">
+                <div class="username-error"></div>
+            </div>
+
+            <div class="input-field">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password">
+                <div class="password-error"></div>
+                <div class="data-error"></div>
+            </div>
+
+
+            <div class="form-buttons">
+                <button type="reset">Reset</button>
+                <button type="submit">Login</button>
+            </div>
         </form>
-        <a href="#">Register</a>
+        <span>Don't have an account? <a href="signup.html">Register</a></span>
     </div>
+
+
+    <script>
+        const form = document.querySelector('form');
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const usernameError = document.querySelector('.username-error');
+            const passwordError = document.querySelector('.password-error');
+            const dataError = document.querySelector('.data-error');
+
+            usernameError.innerHTML = '';
+            passwordError.innerHTML = '';
+            dataError.innerHTML = '';
+
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('/backend/login-handler.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+
+                    if (!result.success) {
+                        if (result.errors.username) {
+                            usernameError.innerHTML = result.errors.username;
+                        }
+                        if (result.errors.password) {
+                            passwordError.innerHTML = result.errors.password;
+                        }
+                        if (result.errors.data) {
+                            dataError.innerHTML = result.errors.data;
+                        }
+                    } else {
+                        // Handle successful login, e.g., redirect to chat page
+                        window.location.href = '/index/index.php';
+                    }
+                } else {
+                    dataError.innerHTML = 'An error occurred. Please try again.';
+                }
+            } catch (error) {
+                console.log('Error: ', error);
+                dataError.innerHTML = 'An error occurred. Please try again.';
+            }
+        });
+    </script>
 </body>
 </html>

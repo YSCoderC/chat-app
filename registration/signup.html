@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat App Login</title>
+    <link rel="stylesheet" href="registration.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>PHP Chat App Signup</h1>
+    <form action="/backend/login-handler.php" method="post">
+        <div class="input-field">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username">
+            <div class="username-error"></div>
+        </div>
+
+        <div class="input-field">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password">
+        <div class="password-error"></div>
+        <div class="data-error"></div>
+        </div>
+
+        <div class="input-field">
+        <label for="gender">Gender</label>
+        <select name="gender" id="gender">
+            <option value="" disabled selected>Select</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+        <div class="gender-error"></div>
+        </div>
+        <div class="data-error"></div>
+
+
+        <div class="form-buttons">
+            <button type="reset">Reset</button>
+            <button type="submit">Login</button>
+        </div>
+    </form>
+    <span>Already have an account? <a href="login.html">Login</a></span>
+</div>
+
+<script>
+    const form = document.querySelector('form');
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const usernameError = document.querySelector('.username-error')
+        const passwordError = document.querySelector('.password-error')
+        const dataError = document.querySelector('.data-error')
+        const genderError = document.querySelector('.gender-error')
+
+        usernameError.innerHTML = '';
+        passwordError.innerHTML = '';
+        dataError.innerHTML = '';
+
+
+        // Send XML http request
+
+        const request = new XMLHttpRequest()
+
+        request.onload = () => {
+            let response = null;
+
+            try {
+                console.log("before parse", request.responseText)
+                response = JSON.parse(request.responseText)
+                console.log("after parse", response)
+
+
+                if (!response['success']){
+                    if (response.errors.username) {
+                        usernameError.innerHTML = response.errors.username;
+                    }
+                    if (response.errors.password) {
+                        passwordError.innerHTML = response.errors.password;
+                    }
+
+                    if (response.errors.gender){
+                        genderError.innerHTML = response.errors.gender;
+
+                    }
+                    if (response.errors.data) {
+                        dataError.innerHTML = response.data;
+                    }
+
+                }
+                else
+                {
+                    console.log("signup success", response);
+                    window.location.href = '/index/index.php';
+                }
+            }
+            catch (error)
+            {
+                console.error("json parse error:\n", error)
+            }
+
+        }
+
+        request.open('post', '/backend/signup-handler.php')
+        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+
+        const requestData = `username=${form.username.value}&password=${form.password.value}&gender=
+        ${document.getElementById('gender').value}`
+        request.send(requestData)
+        console.log(requestData)
+
+
+
+
+    })
+
+</script>
+
+</body>
+</html>
