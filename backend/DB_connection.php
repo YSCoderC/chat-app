@@ -3,7 +3,7 @@
 $host = "localhost";
 $user = "root";
 $pass = "";
-$db_name = 'chat-app';
+$db_name = 'chat_app';
 
 
 try
