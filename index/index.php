@@ -28,49 +28,32 @@ $result = getUserData($_SESSION['userID'])
 
         <div class="users-list">
             <!-- Displaying users here -->
-            <div class="user-item">
-                <div class="user-info">
-                    <img src="/chat_app/images/default_profile.png" alt="profile-picture">
-                    <div>
-                        <h2>test name</h2>
-                        <h2 class="username">@test_username</h2>
-                    </div>
-                </div>
-                <a href="#">Chat</a>
-            </div>
 
-            <div class="user-item">
-                <div class="user-info">
-                    <img src="/chat_app/images/default_profile.png" alt="profile-picture">
-                    <div>
-                        <h2>test name</h2>
-                        <h2 class="username">@test_username</h2>
-                    </div>
-                </div>
-                <a href="#">Chat</a>
-            </div>
+                <?php
+                global $pdo;
+                require_once '../backend/DB_connection.php';
 
-            <div class="user-item">
-                <div class="user-info">
-                    <img src="/chat_app/images/default_profile.png" alt="profile-picture">
-                    <div>
-                        <h2>test name</h2>
-                        <h2 class="username">@test_username</h2>
-                    </div>
-                </div>
-                <a href="#">Chat</a>
-            </div>
+                // Fetch more users from the database
+                $users = $pdo->query("SELECT * FROM users WHERE userID != " . $_SESSION["userID"]);
 
-            <div class="user-item">
-                <div class="user-info">
-                    <img src="/chat_app/images/default_profile.png" alt="profile-picture">
+                while ($user = $users->fetch(PDO::FETCH_ASSOC)) {
+                    echo " 
+            <div class=\"user-item\">
+                <div class=\"user-info\">
+                    <img src=\"/chat_app/images/default_profile.png\" alt=\"profile-picture\">
                     <div>
-                        <h2>test name</h2>
-                        <h2 class="username">@test_username</h2>
+                        <h2 class=\"name\"> " . $user['name'] . " </h2>
+                        <h2 class=\"username\"> " . $user['username'] . "</h2>
                     </div>
                 </div>
-                <a href="#">Chat</a>
+                <a href=\"#\">Chat</a>
             </div>
+                    <br>";
+                }
+                ?>
 
         </div>
-    </div>
+
+        </div>
+</body>
+</html>

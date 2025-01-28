@@ -112,6 +112,11 @@ a
     justify-content: flex-start;
 }
 
+.user-info .name
+{
+    font-size: 15px;
+}
+
 .username
 {
     font-weight: normal;
