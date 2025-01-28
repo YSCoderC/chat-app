@@ -26,9 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
     if (empty($username)) {
-        $errors['username'] = "<ul>Username is required</ul>";
-    } else // if the username input is not empty, verify if the user exists
-    {
+        $errors['username'] = "Username is required";
+    }
+    else {// if the username input is not empty, verify if the user exists
+
         $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username");
         $stmt->bindParam(":username", $username);
 
@@ -43,12 +44,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 if (empty($password)) {
                     $errors['password'] = "Password is required";
-                } else {
+                }
+                else {
                     $stmt = $pdo->prepare("SELECT password FROM users WHERE username = :username");
                     $stmt->bindParam(":username", $username);
                     if (!$stmt->execute()) {
                         $errors['data'] = 'Error fetching data, please try again';
-                    } else {
+                    }
+                    else {
                         $DB_password = $stmt->fetch(PDO::FETCH_ASSOC)['password'];
 
                         if (!password_verify($password, $DB_password)) {
@@ -63,7 +66,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (empty($errors)) {
-        header("Location: index.php");
+        $stmt = $pdo->prepare("SELECT * FROM users WHERE username = :username");
+        $stmt->bindParam(":username", $username);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        $_SESSION = [
+            'userID' => $user['userID'],
+            'username' => $user['username'],
+            'password' => $user['password'],
+            'gender' => $user['gender'],
+            ];
+
+        echo json_encode([
+            'success' => true,
+        ]);
     }
     else
     {
