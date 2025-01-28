@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Chat App Login</title>
     <link rel="stylesheet" href="registration.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body>
 
@@ -49,38 +50,48 @@
             passwordError.innerHTML = '';
             dataError.innerHTML = '';
 
-            const formData = new FormData(form);
+            const request = new XMLHttpRequest();
 
-            try {
-                const response = await fetch('/backend/login-handler.php', {
-                    method: 'POST',
-                    body: formData
-                });
+            request.onload = () => {
 
-                if (response.ok) {
-                    const result = await response.json();
+                let response = null;
 
-                    if (!result.success) {
-                        if (result.errors.username) {
-                            usernameError.innerHTML = result.errors.username;
+                try {
+                    response = JSON.parse(request.responseText);
+
+
+                    if (!response['success']){
+                        if (response.errors.username) {
+                            usernameError.innerHTML = response.errors.username;
                         }
-                        if (result.errors.password) {
-                            passwordError.innerHTML = result.errors.password;
+                        if (response.errors.password) {
+                            passwordError.innerHTML = response.errors.password;
                         }
-                        if (result.errors.data) {
-                            dataError.innerHTML = result.errors.data;
+
+                        if (response.errors.data) {
+                            dataError.innerHTML = response.errors.data;
                         }
-                    } else {
-                        // Handle successful login, e.g., redirect to chat page
-                        window.location.href = '/index/index.php';
+
                     }
-                } else {
+                    else
+                    {
+                        console.log("signup success", response);
+                        window.location.href = '/chat_app/index/index.php';
+                    }
+                }
+                catch (error) {
+                    console.log('Error parsing response: ', error);
                     dataError.innerHTML = 'An error occurred. Please try again.';
                 }
-            } catch (error) {
-                console.log('Error: ', error);
-                dataError.innerHTML = 'An error occurred. Please try again.';
             }
+
+            request.open('POST', '/chat_app/backend/login-handler.php')
+            request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+
+            const requestData = `username=${form.username.value}&password=${form.password.value}`
+
+            request.send(requestData)
+
         });
     </script>
 </body>

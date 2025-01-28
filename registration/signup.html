@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Chat App Login</title>
     <link rel="stylesheet" href="registration.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body>
 
@@ -15,6 +16,13 @@
             <input type="text" name="username" id="username">
             <div class="username-error"></div>
         </div>
+
+        <div class="input-field">
+            <label for="name">Name</label>
+            <input type="text" name="name" id="name">
+            <div class="name-error"></div>
+        </div>
+
 
         <div class="input-field">
         <label for="password">Password</label>
@@ -49,30 +57,33 @@
     form.addEventListener('submit', async function(e) {
         e.preventDefault();
 
-        const usernameError = document.querySelector('.username-error')
+        const usernameError = document.querySelector('.username-error'),
+            nameError = document.querySelector('.name-error');
         const passwordError = document.querySelector('.password-error')
         const dataError = document.querySelector('.data-error')
         const genderError = document.querySelector('.gender-error')
 
         usernameError.innerHTML = '';
+        nameError.innerHTML = '';
         passwordError.innerHTML = '';
         dataError.innerHTML = '';
 
 
         // Send XML http request
-
         const request = new XMLHttpRequest()
 
         request.onload = () => {
+
             let response = null;
 
             try {
-                console.log("before parse", request.responseText)
-                response = JSON.parse(request.responseText)
-                console.log("after parse", response)
-
+                console.log(request.responseText);
+                response = JSON.parse(request.responseText) // convert into JS object
 
                 if (!response['success']){
+                    // form data caused validation error
+
+                    // display the errors from different types if there are any
                     if (response.errors.username) {
                         usernameError.innerHTML = response.errors.username;
                     }
@@ -82,17 +93,21 @@
 
                     if (response.errors.gender){
                         genderError.innerHTML = response.errors.gender;
-
                     }
+
+                    if (response.errors.name){
+                        nameError.innerHTML = response.errors.name;
+                    }
+
                     if (response.errors.data) {
-                        dataError.innerHTML = response.data;
+                        dataError.innerHTML = response.errors.data;
                     }
 
                 }
                 else
                 {
                     console.log("signup success", response);
-                    window.location.href = '/index/index.php';
+                    window.location.href = '/chat_app/index/index.php';
                 }
             }
             catch (error)
@@ -102,11 +117,13 @@
 
         }
 
-        request.open('post', '/backend/signup-handler.php')
+        request.open('post', '/chat_app/backend/signup-handler.php')
         request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
 
-        const requestData = `username=${form.username.value}&password=${form.password.value}&gender=
-        ${document.getElementById('gender').value}`
+        const requestData = `username=${form.username.value}
+        &name=${document.getElementById('name').value}
+        &password=${form.password.value}
+        &gender=${document.getElementById('gender').value}`
         request.send(requestData)
         console.log(requestData)
 
