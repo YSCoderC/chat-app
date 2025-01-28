@@ -31,6 +31,7 @@ body
     width: 30rem;
     height: fit-content;
     display: flex;
+    flex-direction: column;
     align-items: center;
     background-color: white;
     color: white;
@@ -62,7 +63,14 @@ body
     font-size: .8rem;
 }
 
-.profile-info a
+.username
+{
+    font-weight: normal;
+    color: grey;
+    font-size: 1rem;
+}
+
+a
 {
     text-decoration: none;
     color: white;
@@ -71,110 +79,42 @@ body
     border-radius: 4px;
 }
 
-.container form
+.users-list
 {
-    width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
-    margin: 2rem;
+    margin-top: 20px;
 }
 
-.container form .input-field {
+.user-item
+{
+    width: 30rem;
     margin-bottom: 20px;
-}
-
-
-.container form .input-field label {
-    display: block;
-    background-color: var(--primary-color);
-    padding: 5px 5px 15px;
-    margin-left: 0.6rem;
-    width: 7rem;
-    text-align: center;
-    align-items: center;
-    left: 0;
-    border-top-left-radius: 7px;
-    border-top-right-radius: 7px;
-}
-
-
-.container form input, .container form select
-{
-    border: none;
-    border-radius: 30px;
-    padding: 5px 10px;
-}
-
-
-
-
-.container form *
-{
-    width: 100%;
-}
-
-
-.container form .form-buttons{
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
-    margin-top: 0;
+    color: black;
 }
 
-.container form button
+
+.user-item img
 {
-    color: white;
-    cursor: pointer;
-    background-color: var(--primary-color);
-    border: none;
-    margin: 10px;
-    padding: 5px;
-    font-size: 20px;
-    box-shadow: 0 8px 0 var(--shadow-color);
-    border-radius: 7px;
+    border-radius: 50%;
+    height: 60px;
+    margin-right: 10px;
+    width: auto;
 }
 
+.user-info{
+    display: flex;
+    justify-content: flex-start;
+}
 
-.container form button:hover
+.username
 {
-    filter: brightness(92%);
-}
-
-.container form button:active
-{
-    box-shadow: 0 0 0 green;
-    transform: translateY(8px);
-}
-
-.container form button[type='reset']
-{
-    background-color: rgb(235, 65, 65);
-    box-shadow: 0 8px 0 rgb(139, 38, 38);
-}
-
-.container form button[type='reset']:hover
-{
-    background-color: rgb(185, 57, 57);
-}
-
-.container form button[type='reset']:active
-{
-    transform: translateY(8px);
-    box-shadow: 0 0 0 rgb(139, 38, 38);
-}
-
-
-[class$="error"]
-{
-    color: red;
-    background-color: pink;
-}
-
-
-.container span a {
-    text-decoration: none;
-    color: var(--primary-color);
+    font-weight: normal;
+    color: grey;
+    font-size: 1rem;
 }

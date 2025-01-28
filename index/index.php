@@ -11,7 +11,7 @@ $result = getUserData($_SESSION['userID'])
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title><?php echo $result['username'] ?> | Dashboard </title>
+    <title><?php echo $result['name'] ?> | Dashboard </title>
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
@@ -20,11 +20,57 @@ $result = getUserData($_SESSION['userID'])
         <div class="profile-info">
             <img src="/chat_app/images/default_profile.png" alt="profile-picture">
             <div>
-                <h1><?php echo $result['username'] ?></h1>
-                <h1>Status</h1>
+                <h1><?php echo $result['name'] ?></h1>
+                <h1 class="username">@<?php echo $result['username'] ?></h1>
             </div>
             <a href="/chat_app/backend/logout.php">Logout</a>
         </div>
 
-        <div class="users-list"></div>
+        <div class="users-list">
+            <!-- Displaying users here -->
+            <div class="user-item">
+                <div class="user-info">
+                    <img src="/chat_app/images/default_profile.png" alt="profile-picture">
+                    <div>
+                        <h2>test name</h2>
+                        <h2 class="username">@test_username</h2>
+                    </div>
+                </div>
+                <a href="#">Chat</a>
+            </div>
+
+            <div class="user-item">
+                <div class="user-info">
+                    <img src="/chat_app/images/default_profile.png" alt="profile-picture">
+                    <div>
+                        <h2>test name</h2>
+                        <h2 class="username">@test_username</h2>
+                    </div>
+                </div>
+                <a href="#">Chat</a>
+            </div>
+
+            <div class="user-item">
+                <div class="user-info">
+                    <img src="/chat_app/images/default_profile.png" alt="profile-picture">
+                    <div>
+                        <h2>test name</h2>
+                        <h2 class="username">@test_username</h2>
+                    </div>
+                </div>
+                <a href="#">Chat</a>
+            </div>
+
+            <div class="user-item">
+                <div class="user-info">
+                    <img src="/chat_app/images/default_profile.png" alt="profile-picture">
+                    <div>
+                        <h2>test name</h2>
+                        <h2 class="username">@test_username</h2>
+                    </div>
+                </div>
+                <a href="#">Chat</a>
+            </div>
+
+        </div>
     </div>
